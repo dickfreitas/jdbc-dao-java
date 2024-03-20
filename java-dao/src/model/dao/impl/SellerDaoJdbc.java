@@ -50,22 +50,11 @@ public class SellerDaoJdbc implements SellerDAO {
             //VENDO SE HA UMA TABELA COMO RESULTADO
             if (resultSet.next()){
                 //Instanciando o departamento
-                Department dept = new Department();
-                //Pegando a informação do id do departamento e jogando para a classe para instaciala
-                dept.setId(resultSet.getInt("DepartmentId"));
-                //Tem a mesma ideia do de cima, pegando o nome do departamneto na tabela para instaciar
-                dept.setName(resultSet.getString("DepName"));
+                Department dept = instantiateDepartment(resultSet);
 
-                Seller seller = new Seller();
-                seller.setId(resultSet.getInt("Id"));
-                seller.setName(resultSet.getString("Name"));
-                seller.setEmail(resultSet.getString("Email"));
-                seller.setBaseSalary(resultSet.getDouble("BaseSalary"));
-                seller.setBirthDate(resultSet.getDate("BirthDate"));
-                seller.setDepartment(dept);
+                Seller seller = instantiateSeller(resultSet,dept);
 
                 return seller;
-
             }
             return  null;
         }catch (SQLException e){
@@ -75,6 +64,27 @@ public class SellerDaoJdbc implements SellerDAO {
             DB.closeResultSet(resultSet);
         }
 
+    }
+
+    private Seller instantiateSeller(ResultSet resultSet, Department dept) throws SQLException {
+        Seller seller = new Seller();
+        seller.setId(resultSet.getInt("Id"));
+        seller.setName(resultSet.getString("Name"));
+        seller.setEmail(resultSet.getString("Email"));
+        seller.setBaseSalary(resultSet.getDouble("BaseSalary"));
+        seller.setBirthDate(resultSet.getDate("BirthDate"));
+        seller.setDepartment(dept);
+        return seller;
+    }
+
+    //FUNÇÃO AUXILIAR PRA NAO DEIXAR TAO VERBOSO OS METODOS
+    private Department instantiateDepartment(ResultSet resultSet) throws SQLException {
+        Department dept = new Department();
+        //Pegando a informação do id do departamento e jogando para a classe para instaciala
+        dept.setId(resultSet.getInt("DepartmentId"));
+        //Tem a mesma ideia do de cima, pegando o nome do departamneto na tabela para instaciar
+        dept.setName(resultSet.getString("DepName"));
+        return dept;
     }
 
     @Override
