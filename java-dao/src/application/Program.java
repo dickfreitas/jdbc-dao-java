@@ -5,6 +5,7 @@ import model.dao.SellerDAO;
 import model.entities.Department;
 import model.entities.Seller;
 
+import java.util.Date;
 import java.util.List;
 
 public class Program {
@@ -12,7 +13,7 @@ public class Program {
         SellerDAO sellerDAO = DaoFactory.createSellerDao();
 
         System.out.println("----FindById------");
-        Seller seller = sellerDAO.findById(3);
+        Seller seller = sellerDAO.findById(5);
 
         System.out.println(seller);
 
@@ -22,5 +23,16 @@ public class Program {
         for (Seller obj : list) {
             System.out.println(obj);
         }
+
+        System.out.println("\n----FindAll-----");
+        List<Seller> list2 = sellerDAO.findAll();
+        for (Seller obj : list2){
+            System.out.println(obj);
+        }
+
+        System.out.println("\n----Insert-----");
+        Seller newSeller = new Seller(null , "Greg" , "greg@gmail.com" , new Date() , 4000.0 , department);
+        sellerDAO.insert(newSeller);
+        System.out.println("Inserted! New id = " + newSeller.getId() );
     }
 }
