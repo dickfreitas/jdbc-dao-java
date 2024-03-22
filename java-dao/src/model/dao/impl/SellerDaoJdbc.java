@@ -62,12 +62,52 @@ public class SellerDaoJdbc implements SellerDAO {
     }
 
     @Override
-    public void update(Seller department) {
+    public void update(Seller obj) {
+
+
+        PreparedStatement preparedStatement = null;
+
+        try{
+            preparedStatement = connection.prepareStatement(
+                    "UPDATE seller " +
+                            "SET Name = ? , Email = ? , BirthDate = ? , BaseSalary = ? , DepartmentId = ? " +
+                            "WHERE Id = ? "
+            );
+
+            preparedStatement.setString(1 , obj.getName());
+            preparedStatement.setString(2 , obj.getEmail());
+            preparedStatement.setDate(3 , new java.sql.Date(obj.getBirthDate().getTime()));
+            preparedStatement.setDouble(4 , obj.getBaseSalary());
+            preparedStatement.setInt(5 , obj.getDepartment().getId());
+            preparedStatement.setInt(6 , obj.getId());
+
+            preparedStatement.executeUpdate();
+
+        }catch(SQLException e){
+            throw new DbException(e.getMessage());
+
+        }
+
 
     }
 
     @Override
     public void deleteById(Integer id) {
+        PreparedStatement preparedStatement = null;
+
+        try {
+            preparedStatement = connection.prepareStatement(
+                    "Delete " +
+                            "FROM seller " +
+                            "WHERE id = ?" ,+
+                            Statement.RETURN_GENERATED_KEYS
+            );
+
+            preparedStatement.setInt(1 , id);
+            preparedStatement.executeUpdate();
+        }catch (SQLException e){
+            throw new DbException(e.getMessage());
+        }
 
     }
 

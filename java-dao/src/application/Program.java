@@ -29,10 +29,23 @@ public class Program {
         for (Seller obj : list2){
             System.out.println(obj);
         }
-
-        System.out.println("\n----Insert-----");
+        /*
+         System.out.println("\n----Insert-----");
         Seller newSeller = new Seller(null , "Greg" , "greg@gmail.com" , new Date() , 4000.0 , department);
         sellerDAO.insert(newSeller);
         System.out.println("Inserted! New id = " + newSeller.getId() );
+         */
+
+
+        System.out.println("\n----Update-----");
+        seller = sellerDAO.findById(8);
+        seller.setName("Seu jorge");
+        sellerDAO.update(seller);
+
+        System.out.println("Update complete");
+
+        System.out.println("\n----Delete-----");
+        sellerDAO.deleteById(8);
+        System.out.println("Delete complete");
     }
 }
